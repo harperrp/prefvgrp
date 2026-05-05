@@ -1,4 +1,5 @@
 import express from "express";
+import "dotenv/config";
 import { createServer as createViteServer } from "vite";
 import path from "path";
 import { fileURLToPath } from "url";
@@ -40,9 +41,37 @@ async function startServer() {
     res.json(obras);
   });
 
+  app.post("/api/obras", async (req, res) => {
+    const { nome, secretaria, valor, inicio, progresso, status, descricao } = req.body;
+    const result = await db.run(
+      "INSERT INTO obras (nome, secretaria, valor, inicio, progresso, status, descricao) VALUES (?, ?, ?, ?, ?, ?, ?)",
+      [nome, secretaria, valor, inicio, progresso, status, descricao]
+    );
+    res.json({ id: result.lastID });
+  });
+
+  app.delete("/api/obras/:id", async (req, res) => {
+    await db.run("DELETE FROM obras WHERE id = ?", [req.params.id]);
+    res.json({ success: true });
+  });
+
   app.get("/api/licencas", async (req, res) => {
     const licencas = await db.all("SELECT * FROM licencas ORDER BY id DESC");
     res.json(licencas);
+  });
+
+  app.post("/api/licencas", async (req, res) => {
+    const { processo, objeto, modalidade, valor, abertura, status } = req.body;
+    const result = await db.run(
+      "INSERT INTO licencas (processo, objeto, modalidade, valor, abertura, status) VALUES (?, ?, ?, ?, ?, ?)",
+      [processo, objeto, modalidade, valor, abertura, status]
+    );
+    res.json({ id: result.lastID });
+  });
+
+  app.delete("/api/licencas/:id", async (req, res) => {
+    await db.run("DELETE FROM licencas WHERE id = ?", [req.params.id]);
+    res.json({ success: true });
   });
 
   // Vite middleware for development
