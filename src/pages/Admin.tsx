@@ -22,11 +22,11 @@ export default function Admin() {
         </div>
         <nav className="sb-nav">
           <div className="grp-lbl">Visão Geral</div>
-          <div className={\`ni \${activePage === 'dashboard' ? 'act' : ''}\`} onClick={() => setActivePage('dashboard')}>
+          <div className={`ni ${activePage === 'dashboard' ? 'act' : ''}`} onClick={() => setActivePage('dashboard')}>
             <span className="ni-ico">📊</span><span className="ni-lbl">Dashboard</span>
           </div>
           <div className="grp-lbl">Gestão Manual (Painel)</div>
-          <div className={\`ni \${activePage === 'noticias' ? 'act' : ''}\`} onClick={() => setActivePage('noticias')}>
+          <div className={`ni ${activePage === 'noticias' ? 'act' : ''}`} onClick={() => setActivePage('noticias')}>
             <span className="ni-ico">📰</span><span className="ni-lbl">Notícias e Eventos</span>
           </div>
         </nav>
@@ -52,7 +52,7 @@ export default function Admin() {
              <div>
                <div className="ph">
                  <div><h1>Gestao de <em>Noticias</em></h1></div>
-                 <div className="ph-acts"><button className="btn btn-p" onClick={() => document.getElementById('mo-noticia').style.display = 'flex'}>✏️ Nova Noticia</button></div>
+                 <div className="ph-acts"><button className="btn btn-p" onClick={() => document.getElementById('mo-noticia')!.style.display = 'flex'}>✏️ Nova Noticia</button></div>
                </div>
                <div className="tw">
                  <div className="th"><div className="tt">Noticias</div></div>
@@ -68,7 +68,7 @@ export default function Admin() {
                          <td>
                            <div style={{display:'flex',gap:'4px'}}>
                              <button className="btn btn-sm btn-d" onClick={async () => {
-                               await fetch(\`/api/noticias/\${n.id}\`, { method: 'DELETE' });
+                               await fetch(`/api/noticias/${n.id}`, { method: 'DELETE' });
                                setNoticias(noticias.filter((x: any) => x.id !== n.id));
                              }}>🗑</button>
                            </div>
@@ -85,7 +85,7 @@ export default function Admin() {
 
       <div className="mo" id="mo-noticia" style={{display: 'none'}}>
         <div className="md">
-          <div className="md-h"><h3>Nova Noticia</h3><button className="md-x" onClick={() => document.getElementById('mo-noticia').style.display = 'none'}>&times;</button></div>
+          <div className="md-h"><h3>Nova Noticia</h3><button className="md-x" onClick={() => document.getElementById('mo-noticia')!.style.display = 'none'}>&times;</button></div>
           <div className="md-b">
             <form id="form-noticia" onSubmit={async (e) => {
               e.preventDefault();
@@ -100,7 +100,7 @@ export default function Admin() {
               const { id } = await res.json();
               data.id = id;
               setNoticias([data as any, ...noticias]);
-              document.getElementById('mo-noticia').style.display = 'none';
+              document.getElementById('mo-noticia')!.style.display = 'none';
               (e.target as HTMLFormElement).reset();
             }}>
               <div className="fg">
@@ -111,7 +111,7 @@ export default function Admin() {
                 <div className="fgrp span2"><label>Conteudo</label><textarea name="conteudo" className="fc" required></textarea></div>
               </div>
               <div className="md-f" style={{marginTop: "20px"}}>
-                <button type="button" className="btn btn-s" onClick={() => document.getElementById('mo-noticia').style.display = 'none'}>Cancelar</button>
+                <button type="button" className="btn btn-s" onClick={() => document.getElementById('mo-noticia')!.style.display = 'none'}>Cancelar</button>
                 <button type="submit" className="btn btn-p">Salvar</button>
               </div>
             </form>
