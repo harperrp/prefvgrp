@@ -1,0 +1,1 @@
+(function(){"use strict";document.addEventListener("DOMContentLoaded",function(){document.querySelectorAll("button").forEach(function(b){if(!b.onclick&&!b.closest(".mo")&&!b.closest("a")){b.addEventListener("click",function(){if(window.toast)toast("Ação registrada no painel","i");});}});});})();
